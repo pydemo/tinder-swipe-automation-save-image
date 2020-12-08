@@ -27,7 +27,7 @@ Only works for account linked  to gmail
 
 
 ## Saved example
-![Example save](https://raw.githubusercontent.com/pydemo/tinder-swipe-automation-save-image/main/images/%D0%9E%D0%BB%D1%8F.640x800_75_ec5e24c4-9beb-4405-86df-732fbdf79aa1.webp)
+![Example save](https://raw.githubusercontent.com/pydemo/tinder-swipe-automation-save-image/main/test.JPG)
 
 
 Also: Instagram upload automation: https://github.com/pydemo/final_upload
