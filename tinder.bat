@@ -1,0 +1,1 @@
+..\tinder_env.bat && C:\tmp\Python\Python38-32\python.exe swipe.py
