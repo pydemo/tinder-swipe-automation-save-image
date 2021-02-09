@@ -37,7 +37,7 @@ if not home or not home.strip('.'):
     home = os.path.dirname(os.path.abspath(__file__))
 
 
-driverpath = r".\driver\nt\chromedriver_86.exe"
+driverpath = r".\driver\nt\chromedriver_88.exe"
 
 phototext = """
 #infinite swipe right for Tinder
@@ -75,6 +75,8 @@ options.add_argument("--mute-audio")
 #options.add_experimental_option("mobileEmulation", mobile_emulation)
 options.add_argument('--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1')
 
+tm1=5
+tm2=5
 
 def popups(driver):
     try:  #allow location
@@ -113,17 +115,20 @@ def popups(driver):
     
     err='Say something nice'
     try: 
+        driver.find_element_by_xpath('//*[@id="modal-manager"]/div/div/div/div/div[4]/button').click()
         
-        frm = driver.find_element_by_xpath('//*[@id="modal-manager-canvas"]/div/div/div[1]/div/div[3]/div[3]/form')
-        if frm:
-            pp(dir(frm))
-            err +=', Ta search'
-            ta= frm.find_elements(By.XPATH, '//*[@id="chat-text-area"]')
-            err +=', send_keys'
-            ta[0].send_keys(SAY_SOMETHING_NICE)
-            pp(dir(ta))
-            err +=', send'
-            driver.find_element_by_xpath('//*[@id="modal-manager-canvas"]/div/div/div[1]/div/div[3]/div[3]/form/button').click()
+        #if top window
+        if 0:
+            frm = driver.find_element_by_xpath('//*[@id="modal-manager-canvas"]/div/div/div[1]/div/div[3]/div[3]/form')
+            if frm:
+                pp(dir(frm))
+                err +=', Ta search'
+                ta= frm.find_elements(By.XPATH, '//*[@id="chat-text-area"]')
+                err +=', send_keys'
+                ta[0].send_keys(SAY_SOMETHING_NICE)
+                pp(dir(ta))
+                err +=', send'
+                driver.find_element_by_xpath('//*[@id="modal-manager-canvas"]/div/div/div[1]/div/div[3]/div[3]/form/button').click()
     except Exception as ex:
         print('Passing on: ', err)
         print(str(ex))
@@ -155,8 +160,14 @@ if __name__=="__main__":
         driver.get("https://tinder.com/")
         
         time.sleep(1)
+        sz=driver.get_window_size()
+        
+        
         driver.find_element_by_xpath('//*[@id="content"]/div/div[1]/div/main/div[1]/div/div/div/div/header/div/div[2]/div[2]/button').click()
         time.sleep(2)
+        driver.set_window_size(sz['width']-230, sz['height'])
+        time.sleep(2)
+        #e()
         if 0:
             driver.find_element_by_xpath('//*[@id="modal-manager"]/div/div/div[1]/div/div[3]/span/div[3]/button/span[2]').click()
             time.sleep(1)
@@ -226,8 +237,10 @@ if __name__=="__main__":
                 else:
                     exit(1)
                             
-            secs = randrange(2,5)
+            secs = randrange(tm1,tm1+5)
             print('Sleep for ', secs)
+            time.sleep(secs)
+            popups(driver)
             time.sleep(secs)
             popups(driver)
 
@@ -241,7 +254,8 @@ if __name__=="__main__":
                     try:
                         name=driver.find_element_by_xpath(s).text
                         print('%d: Name: %s' %  (sid,name))
-                        break
+                        if name:
+                            break
                     except:
                         print("Passing on name: %d" % sid)
                 
@@ -350,7 +364,7 @@ if __name__=="__main__":
                     except:
                         print('Not a video: %d' % tid)
                     tid +=1
-                    time.sleep(5)
+                    time.sleep(tm2)
                 except Exception as ex:
                     print('Exiting tabs: %d' % tid)
                     print(str(ex))
